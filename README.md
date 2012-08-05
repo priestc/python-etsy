@@ -57,8 +57,19 @@ Authenticating with OAuth
 -------------------------
 
     >>> e.get_auth_url(permissions=['email_r', 'listings_r'])
-    u'https://www.etsy.com/oauth/signin?oauth_consumer_key=XXX...
+    {'oauth_token': u'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+     'oauth_token_secret': u'XXXXXXXXXX',
+     'url': u'https://www.etsy.com/oauth/signin?oauth_consumer_key=...'}
     
-The user then is redirected to that URL
+The user then is redirected to the URL (you must save the `oauth_token` and `oauth_token_secret` for later in step two.
+
 The list of all permissions can be found [here.](http://www.etsy.com/developers/documentation/getting_started/oauth#section_permission_scopes)
 
+Once the user click the link and authenticates your app, the user then copy/pastes the *verification code* back to your app
+
+    >>> e.get_auth_token(verification_code, oauth_token, oauth_token_secret)
+    {'oauth_token': u'XXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+     'oauth_token_secret': u'XXXXXXXXXXXX'}
+
+The new `oauth_token` and `oauth_token_secret` are permanent and should be stored
+in a database for use in all subsequent api requests that require authentication.
