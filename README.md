@@ -60,5 +60,5 @@ Authenticating with OAuth
     u'https://www.etsy.com/oauth/signin?oauth_consumer_key=XXX...
     
 The user then is redirected to that URL
-The list of all permissions can be found here: [](http://www.etsy.com/developers/documentation/getting_started/oauth#section_permission_scopes)
+The list of all permissions can be found [here.](http://www.etsy.com/developers/documentation/getting_started/oauth#section_permission_scopes)
 
