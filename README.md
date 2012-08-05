@@ -57,7 +57,76 @@ Searching for users
        u'login_name': u'way2easy4ron',
        u'referred_by_user_id': None,
        ...
-       
+
+Showing listings
+----------------
+
+Listings are items that are for sale on the site.
+
+    >>> e.show_listings(color='#FF00FF')
+    {u'count': 15,
+     u'pagination': {u'effective_limit': 25,
+      u'effective_offset': 0,
+      u'effective_page': 1,
+      u'next_offset': None,
+      u'next_page': None},
+     u'params': {u'category': None,
+      u'color': u'#FF0000',
+      u'color_accuracy': u'5',
+      u'geo_level': u'city',
+      u'keywords': None,
+      u'lat': None,
+      u'limit': 25,
+      u'location': None,
+      u'lon': None,
+      u'materials': None,
+      u'max_price': None,
+      u'min_price': None,
+      u'offset': 0,
+      u'page': None,
+      u'sort_on': u'created',
+      u'sort_order': u'down',
+      u'tags': None},
+     u'results': [{u'brightness': 99,
+       u'category_id': 69152465,
+       u'category_path': [u'Patterns', u'Handmade'],
+       u'creation_tsz': 1343606971,
+       u'currency_code': u'USD',
+       u'description': u'This listing is for...',
+       u'ending_tsz': 1354165200,
+       u'featured_rank': 0,
+       u'hue': 0,
+       u'is_black_and_white': False,
+       u'is_supply': None,
+       u'last_modified_tsz': 1343606971,
+       u'listing_id': 55489116,
+       u'materials': [u'pdf email pattern', u'beads', u'needles and thread'],
+       u'num_favorers': 4,
+       u'occasion': None,
+       u'original_creation_tsz': 1283592254,
+       u'price': u'35.00',
+       u'quantity': 1,
+       u'recipient': None,
+       u'saturation': 100,
+       u'shop_section_id': 6766997,
+       u'state': u'active',
+       u'state_tsz': 1323227794,
+       u'style': None,
+       u'tags': [u'beading',
+        u'beadweaving',
+        u'peyote',
+        u'bracelet',
+        u'cuff',
+        u'snow leopard',
+        u'blue',
+        u'red',
+        u'white',
+        u'grey',
+        u'dust team',
+        u'ebw team'],
+        ...
+    
+
 Authenticating with OAuth
 -------------------------
     >>> e.get_auth_url(permissions=['email_r', 'listings_r'])

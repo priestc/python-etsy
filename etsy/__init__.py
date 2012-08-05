@@ -11,15 +11,18 @@ class Etsy(object):
     """
     Represents the etsy API
     """
-    url_base = "http://sandbox.openapi.etsy.com/v2"
+    url_base = "http://openapi.etsy.com/v2"
     
     class EtsyError(Exception):
         pass
     
-    def __init__(self, consumer_key, consumer_secret, oauth_token=None, oauth_token_secret=None):
-        self.params = {}
+    def __init__(self, consumer_key, consumer_secret, oauth_token=None, oauth_token_secret=None, sandbox=False):
+        self.params = {'api_key': consumer_key}
         self.consumer_key = consumer_key
         self.consumer_secret = consumer_secret
+        
+        if sandbox:
+            self.url_base = "http://sandbox.openapi.etsy.com/v2"
         
         # generic authenticated oauth hook
         self.simple_oauth = OAuthHook(consumer_key=consumer_key, consumer_secret=consumer_secret)
@@ -28,12 +31,24 @@ class Etsy(object):
             # full oauth hook for an authenticated user
             self.full_oauth = OAuthHook(oauth_token, oauth_token_secret, consumer_key, consumer_secret)
     
+    def show_listings(self, color=None, color_wiggle=5):
+        """
+        Show all listings on the site.
+        color should be a RGB ('#00FF00') or a HSV ('360;100;100')
+        """
+        endpoint = '/listings/active'
+        if color:
+            self.params['color'] = color
+            self.params['color_accuracy'] = color_wiggle
+    
+        response = self.execute(endpoint)
+        return json.loads(response.text)
+    
     def get_user_info(self, user):
         """
         Get basic info about a user, pass in a username or a user_id
         """
         endpoint = '/users/%s' % user
-        self.params = {'api_key': self.consumer_key}
         
         auth = {}
         if user == '__SELF__':
@@ -48,7 +63,7 @@ class Etsy(object):
         Search for a user given the 
         """
         endpoint = '/users'
-        self.params = {'api_key': self.consumer_key, 'keywords': keywords}
+        self.params['keywords'] = keywords
         response = self.execute(endpoint)
         return json.loads(response.text)
     
@@ -59,6 +74,7 @@ class Etsy(object):
         oauth_token and oauth_token_secret need to be saved for step two.
         """
         endpoint = '/oauth/request_token'
+        self.params = {}
         if permissions:
             self.params = {'scope': " ".join(permissions)}
         response = self.execute(endpoint, oauth=self.oauth)
