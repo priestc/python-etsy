@@ -51,3 +51,14 @@ Searching for users
        u'feedback_info': {u'count': 2, u'score': 100},
        u'login_name': u'way2easy4ron',
        u'referred_by_user_id': None,
+       ...
+       
+Authenticating with OAuth
+-------------------------
+
+    >>> e.get_auth_url(permissions=['email_r', 'listings_r'])
+    u'https://www.etsy.com/oauth/signin?oauth_consumer_key=XXX...
+    
+The user then is redirected to that URL
+The list of all permissions can be found here: [](http://www.etsy.com/developers/documentation/getting_started/oauth#section_permission_scopes)
+
