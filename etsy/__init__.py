@@ -16,13 +16,17 @@ class Etsy(object):
     class EtsyError(Exception):
         pass
     
-    def __init__(self, consumer_key, consumer_secret):
+    def __init__(self, consumer_key, consumer_secret, oauth_token=None, oauth_token_secret=None):
         self.params = {}
         self.consumer_key = consumer_key
         self.consumer_secret = consumer_secret
         
-        #generic authenticated oauth hook
-        self.oauth = OAuthHook(consumer_key=consumer_key, consumer_secret=consumer_secret)
+        # generic authenticated oauth hook
+        self.simple_oauth = OAuthHook(consumer_key=consumer_key, consumer_secret=consumer_secret)
+        
+        if oauth_token and oauth_token_secret:
+            # full oauth hook for an authenticated user
+            self.full_oauth = OAuthHook(oauth_token, oauth_token_secret, consumer_key, consumer_secret)
     
     def get_user_info(self, user):
         """
@@ -30,7 +34,13 @@ class Etsy(object):
         """
         endpoint = '/users/%s' % user
         self.params = {'api_key': self.consumer_key}
-        response = self.execute(endpoint)
+        
+        auth = {}
+        if user == '__SELF__':
+            auth = {'oauth': self.full_oauth}
+            self.params = {} # etsy api ignores oauth if api_key is present in get params 
+            
+        response = self.execute(endpoint, **auth)
         return json.loads(response.text)
     
     def find_user(self, keywords):
