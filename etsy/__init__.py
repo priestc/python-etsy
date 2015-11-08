@@ -11,7 +11,7 @@ class Etsy(object):
     """
     Represents the etsy API
     """
-    url_base = "http://openapi.etsy.com/v2"
+    url_base = "https://openapi.etsy.com/v2"
     
     class EtsyError(Exception):
         pass
